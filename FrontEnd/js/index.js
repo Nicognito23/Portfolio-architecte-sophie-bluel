@@ -2,13 +2,23 @@ const gallery = document.querySelector (".gallery");
 
 async function getWorks() {
     const response = await fetch("http://localhost:5678/api/works");
+
+    if (!response.ok) {                                     
+        throw new Error("Erreur HTTP " + response.status);  
+    }                                                       
+
     const works = await response.json();
     return works; 
 }
 
 async function init() {
-    const works = await getWorks();
-    displayWorks(works);
+    try {                                                                         
+        const works = await getWorks();
+        displayWorks(works);
+    } catch (error) {                                                             
+        console.error("Impossible de récupérer les travaux :", error);            
+        gallery.textContent = "Impossible de charger les projets pour le moment."; 
+    }                                                                             
 }
 
 function createWorkElement(work) {
