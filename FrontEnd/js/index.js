@@ -8,29 +8,14 @@ let allWorks = [];
 // Valeur de categoryId qui signifie "afficher tous les travaux"
 const ALL_CATEGORIES = 0;
 
-// Récupère les travaux depuis l'API et renvoie le tableau
-async function getWorks() {
-    const response = await fetch("http://localhost:5678/api/works");
-
-    // fetch ne signale pas les erreurs 404/500 : on vérifie nous-mêmes
-    if (!response.ok) {
-        throw new Error("Erreur HTTP " + response.status);
-    }
-
-    const works = await response.json();
-    return works;
+// Récupère les travaux depuis l'API
+function getWorks() {
+    return fetchData("/works");
 }
 
-// Récupère les catégories depuis l'API et renvoie le tableau
-async function getCategories() {
-    const response = await fetch("http://localhost:5678/api/categories");
-
-    if (!response.ok) {
-        throw new Error("Erreur HTTP " + response.status);
-    }
-
-    const categories = await response.json();
-    return categories;
+// Récupère les catégories depuis l'API
+function getCategories() {
+    return fetchData("/categories");
 }
 
 // Lance le chargement : travaux puis catégories, chacun avec sa gestion d'erreur
