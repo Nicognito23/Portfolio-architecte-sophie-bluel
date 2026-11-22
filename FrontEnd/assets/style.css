@@ -290,3 +290,14 @@ body.login-page {
 .login-page footer {
     background-color: white;   /* le footer garde un fond blanc */
 }
+
+/* Message d'erreur : invisible tant qu'il est vide */
+.error {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #C0392B;
+}
+
+.error:empty {
+    display: none;
+}
