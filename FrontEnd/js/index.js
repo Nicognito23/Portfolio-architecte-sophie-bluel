@@ -100,4 +100,17 @@ function applyFilter(clickedButton, categoryId) {
     }
 }
 
+// Renvoie true si un token est stocké, donc si l'utilisateur est connecté
+function isLoggedIn() {
+    return localStorage.getItem("token") !== null;
+}
+
+// Si l'utilisateur est connecté, active le mode édition de la page
+function setupEditMode() {
+    if (isLoggedIn()) {
+        document.body.classList.add("edit-mode");
+    }
+}
+
+setupEditMode();
 init();

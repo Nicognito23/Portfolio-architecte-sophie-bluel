@@ -301,3 +301,21 @@ body.login-page {
 .error:empty {
     display: none;
 }
+
+/* ---------- Mode édition ---------- */
+.edit-banner {
+    display: none;                 /* caché par défaut */
+}
+
+.edit-mode .edit-banner {
+    display: flex;                 /* visible seulement si le body a la classe edit-mode */
+    justify-content: center;
+    align-items: center;
+	gap: 10px;
+    width: 100vw;                  /* pleine largeur de l'écran */
+    margin-left: calc(50% - 50vw); /* sort du body limité à 1140px */
+    height: 59px;
+    background-color: black;
+    color: white;
+    font-size: 16px;
+}
