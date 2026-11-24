@@ -1,6 +1,7 @@
 // Éléments de la page où l'on ajoute les projets et les boutons de filtre
 const gallery = document.querySelector(".gallery");
 const filters = document.querySelector(".filters");
+const authLink = document.querySelector("#auth-link");
 
 // Tous les travaux reçus de l'API, gardés en mémoire pour le filtrage
 let allWorks = [];
@@ -106,10 +107,20 @@ function isLoggedIn() {
 }
 
 // Si l'utilisateur est connecté, active le mode édition de la page
+// Si l'utilisateur est connecté, active le mode édition et transforme "login" en "logout"
 function setupEditMode() {
     if (isLoggedIn()) {
         document.body.classList.add("edit-mode");
+        authLink.textContent = "logout";
+        authLink.addEventListener("click", logout);
     }
+}
+
+// Déconnecte l'utilisateur : supprime le token puis recharge la page
+function logout(event) {
+    event.preventDefault();
+    localStorage.removeItem("token");
+    window.location.reload();
 }
 
 setupEditMode();
