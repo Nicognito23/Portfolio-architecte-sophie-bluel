@@ -106,7 +106,6 @@ function isLoggedIn() {
     return localStorage.getItem("token") !== null;
 }
 
-// Si l'utilisateur est connecté, active le mode édition de la page
 // Si l'utilisateur est connecté, active le mode édition et transforme "login" en "logout"
 function setupEditMode() {
     if (isLoggedIn()) {
