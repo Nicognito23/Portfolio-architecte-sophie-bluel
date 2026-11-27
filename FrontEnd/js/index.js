@@ -2,6 +2,9 @@
 const gallery = document.querySelector(".gallery");
 const filters = document.querySelector(".filters");
 const authLink = document.querySelector("#auth-link");
+const modal = document.querySelector("#modal");
+const editButton = document.querySelector(".edit-button");
+const modalGallery = document.querySelector(".modal-gallery");
 
 // Tous les travaux reçus de l'API, gardés en mémoire pour le filtrage
 let allWorks = [];
@@ -24,6 +27,7 @@ async function init() {
     try {
         allWorks = await getWorks();
         displayWorks(allWorks);
+        displayModalGallery(allWorks);
     } catch (error) {
         console.error("Impossible de récupérer les travaux :", error);
         gallery.textContent = "Impossible de charger les projets pour le moment.";
@@ -59,6 +63,33 @@ function displayWorks(works) {
 
     for (const work of works) {
         gallery.append(createWorkElement(work));
+    }
+}
+
+// Fabrique la miniature d'UN projet dans la modale, avec son bouton corbeille
+function createModalWorkElement(work) {
+    const figure = document.createElement("figure");
+
+    const img = document.createElement("img");
+    img.src = work.imageUrl;
+    img.alt = work.title;
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.classList.add("delete-button");
+    deleteButton.setAttribute("aria-label", "Supprimer " + work.title);
+    deleteButton.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+
+    figure.append(img, deleteButton);
+    return figure;
+}
+
+// Vide la galerie de la modale puis y affiche une miniature par projet
+function displayModalGallery(works) {
+    modalGallery.innerHTML = "";
+
+    for (const work of works) {
+        modalGallery.append(createModalWorkElement(work));
     }
 }
 
@@ -121,6 +152,26 @@ function logout(event) {
     localStorage.removeItem("token");
     window.location.reload();
 }
+
+// Affiche la modale (la même à chaque fois : on ne la recrée jamais)
+function openModal() {
+    modal.classList.add("open");
+}
+
+// Cache la modale
+function closeModal() {
+    modal.classList.remove("open");
+}
+
+editButton.addEventListener("click", openModal);
+modal.querySelector(".modal-close").addEventListener("click", closeModal);
+
+// Clic sur le fond grisé (et non dans la boîte blanche) : on ferme
+modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+        closeModal();
+    }
+});
 
 setupEditMode();
 init();
